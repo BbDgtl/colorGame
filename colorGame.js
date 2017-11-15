@@ -2,16 +2,50 @@
 var colors = generateRandomColors(6);
 
 //select each square, loop through to change background color
+var numSquares = 6;
+var colors = generateRandomColors(numSquares);
 var squares = document.querySelectorAll(".square");
 var pickedColor = pickColor();
 var colorDisplay = document.getElementById("colorDisplay");
 var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 var resetButton = document.querySelector("#reset");
+var easyBtn = document.querySelector("#easyBtn");
+var hardBtn = document.querySelector("#hardBtn");
 
+// ********** Event Listener for changing game dificulty ********** \\
+easyBtn.addEventListener("click", function(){
+  easyBtn.classList.add("selected");
+  hardBtn.classList.remove("selected");
+  numSquares = 3;
+  colors = generateRandomColors(numSquares);
+  pickedColor = pickColor();
+  colorDisplay.textContent = pickedColor;
+  for (var i = 0; i < squares.length; i++){
+    if (colors[i]){
+      squares[i].style.backgroundColor = colors[i];
+    } else {
+      squares[i].style.display = "none";
+    }
+  }
+});
+hardBtn.addEventListener("click", function(){
+  hardBtn.classList.add("selected");
+  easyBtn.classList.remove("selected");
+  numSquares = 6;
+  colors = generateRandomColors(numSquares);
+  pickedColor = pickColor();
+  colorDisplay.textContent = pickedColor;
+  for (var i = 0; i < squares.length; i++){
+      squares[i].style.backgroundColor = colors[i];
+      squares[i].style.display = "block";
+  }
+});
+
+// ********** Reset Button Functionality ********** \\
 resetButton.addEventListener("click", function(){
   // generate all new colors
-  colors = generateRandomColors(6);
+  colors = generateRandomColors(numSquares);
   // pick a new random color from array
   pickedColor = pickColor();
   // change color display to match picked color
@@ -20,10 +54,10 @@ resetButton.addEventListener("click", function(){
   for (var i = 0; i < squares.length; i++){
     squares[i].style.background = colors[i];
   }
-  h1.style.backgroundColor = "#232323";
+  h1.style.backgroundColor = "#steeblue";
 })
 
-// change the "rgb" in the h1 to the rgb code of the color to guess
+// ********** change the "rgb" in the h1 to the rgb code of the color to guess ********** \\
 colorDisplay.textContent = pickedColor;
 for (var i = 0; i < squares.length; i++) {
   // add initial colors to squares
@@ -45,6 +79,7 @@ for (var i = 0; i < squares.length; i++) {
   });
 }
 
+// ********** Change all squares to match given color ********** \\
 function changeColors(color){
   // loop through all squares, change each color to match given color
   for (var i = 0; i < squares.length; i++){
@@ -52,7 +87,7 @@ function changeColors(color){
   }
 }
 
-// pick a random color for pickedColor var
+// ********** pick a random color for pickedColor var ********** \\
 function pickColor(){
   // pick a random number for the colors array and store in a var
   var random = Math.floor(Math.random() * colors.length);
@@ -60,7 +95,7 @@ function pickColor(){
   return colors[random];
 }
 
-// Generate random colors function
+// ********** Generate random colors function ********** \\
 function generateRandomColors(num){
   // make an array
   var arr = [];
@@ -72,7 +107,6 @@ function generateRandomColors(num){
   // return that array
   return arr;
 }
-
 function randomColor(){
   // pick a "red" from 0-255
   var r = Math.floor(Math.random() * 256);
